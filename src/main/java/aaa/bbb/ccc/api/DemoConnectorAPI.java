@@ -27,21 +27,28 @@ public class DemoConnectorAPI implements IGsonBase {
     @RequestMapping(value = "/receive_req", method = RequestMethod.POST, produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     public ResponseData receiveRequest()
     {
-        List<String> lstResponse = new ArrayList();
-        lstResponse.add(ResponseData.SUCCESS);
-        lstResponse.add(ResponseData.ERROR);
+        List<String> lstCase = new ArrayList();
+        lstCase.add("A");
+        lstCase.add("B");
 
         for (int i = 0; i < 10; i++) {
-            Collections.shuffle(lstResponse);
+            Collections.shuffle(lstCase);
         }
-        log.info("Response code = {}", lstResponse.get(0));
-        return ResponseData.buildResponse(lstResponse.get(0), "Receive request success");
+        log.info("Response rule = {}", lstCase.get(0));
+        return ResponseData.buildResponse(lstCase.get(0), "Receive request success");
     }
 
     @RequestMapping(value = "/apply_rule", method = RequestMethod.POST, produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
     public ResponseData applyRule(@RequestBody String body)
     {
-        log.info("Apply rule done {}", body);
-        return ResponseData.buildResponse(ResponseData.SUCCESS, "Apply rule");
+        log.info("Process rule {}", body);
+        return ResponseData.buildResponse(ResponseData.SUCCESS, "Process rule");
+    }
+
+    @RequestMapping(value = "/after_decision", method = RequestMethod.POST, produces = {MimeTypeUtils.APPLICATION_JSON_VALUE})
+    public ResponseData afterDecision(@RequestBody String body)
+    {
+        log.info("After decision {}", body);
+        return ResponseData.buildResponse(ResponseData.SUCCESS, "After decision");
     }
 }
